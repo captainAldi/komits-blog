@@ -30,9 +30,6 @@ export default {
       .then(response => {
 								this.wholeResponse = response.data.records
       })
-      .catch(error => {
-        console.log(error)
-      })
   },
 		computed: {
 			filteredWhatWeDo () {

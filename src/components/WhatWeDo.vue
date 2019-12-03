@@ -57,7 +57,6 @@ export default {
 		return {
 			wholeResponse: [],
       loading: true,
-						idBlog: null
 		}
 	},
 	created() {
@@ -67,14 +66,10 @@ export default {
 				this.wholeResponse = response.data.records
 				this.loading = false
 			})
-			.catch(error => {
-				console.log(error)
-			})
 	},
 	methods: {
 		SingleWhatWeDo (id) {
 			this.$router.push('/blog/' + id)
-			this.idBlog = id
 		}
 	}
 }
