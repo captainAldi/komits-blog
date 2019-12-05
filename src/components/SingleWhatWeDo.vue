@@ -1,16 +1,59 @@
 <template>
-		<v-container>
-    <v-layout row wrap>
-      <v-flex xs12
-							v-for="item in filteredWhatWeDo"
-							:key="item.ID"
-						>
-        <h2>{{item.judul}}</h2>
-          <div>{{item.deskripsi}}</div>
-										<p>{{item.ID}}</p>
-      </v-flex>
-    </v-layout>
-  </v-container>
+<v-container fluid v-if="loading">
+		<v-row>
+			<v-col 
+				cols="12"
+				align="center"
+				justify="center"
+			>
+				<v-progress-circular
+					indeterminate
+					:size="150"
+					:width="8"
+					color="blue">
+				</v-progress-circular>
+				<p>Sedang Memuat Data Mohon Tunggu</p>
+			</v-col>
+		</v-row>
+	</v-container>
+
+	<v-container v-else>
+		<v-row>
+			<v-col
+				cols="12"
+				align="center"
+				justify="center"
+				v-for="item in filteredWhatWeDo"
+				:key="item.ID"
+			>
+				<v-card
+							class="pa-2 mb-4"
+							outlined
+							tile
+					>
+							<v-img
+									class="white--text align-end"
+									:src="item.foto"
+							>
+							</v-img>
+							<v-card-title>{{item.judul}}</v-card-title>
+							
+							<v-card-text class="text--primary">
+									<div>{{item.deskripsi}}</div>
+									<div>{{item.ID}}</div>
+							</v-card-text>
+
+							<v-card-actions>
+									<v-btn
+											color="orange"
+									>
+											Tombol
+									</v-btn>
+							</v-card-actions>
+					</v-card>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
 <script>
@@ -22,6 +65,7 @@ export default {
   data () {
     return {
 						wholeResponse: [],
+						loading: true,
     }
   },
   mounted () {
@@ -29,6 +73,7 @@ export default {
       .get('https://script.google.com/macros/s/AKfycbwOtWg76OZtuIZyISiFtuIVbRbD11GqI1YjsAjhIi7jSS_kVbwP/exec'+'?action=read_wwD')
       .then(response => {
 								this.wholeResponse = response.data.records
+								this.loading = false
       })
   },
 		computed: {

@@ -2,7 +2,7 @@
 <v-lazy
 	v-model="isActive"
 	:options="{
-			threshold: .5
+			threshold: .8
 	}"
 >
 	<v-container fluid v-if="loading">
@@ -29,7 +29,7 @@
 				cols="12"
 				md="6"
 				lg="4"
-				v-for="item in wholeResponse"
+				v-for="item in searchResponseDong"
 				:key="item.ID"
 				>
 					<v-card
@@ -70,11 +70,13 @@
 import axios from 'axios'
 
 export default {
+	props: ['nama'],
 	data: function () {
 		return {
 			wholeResponse: [],
       loading: true,
 						isActive: false,
+			searchResponse: []
 		}
 	},
 	created() {
@@ -84,6 +86,22 @@ export default {
 				this.wholeResponse = response.data.records
 				this.loading = false
 			})
+	},
+	computed: {
+		filteredWhatWeDo () {
+				return this.wholeResponse.filter(coba => {
+					return this.id == coba.ID
+			})
+		},
+		searchResponseDong () {
+			//this.searchResponse = this.wholeResponse.indexOf(this.nama)
+			const pencarianStringKhusus = this.nama.toLowerCase()
+
+			return this.wholeResponse.filter(coba1 => {
+				const judulKhusus = coba1.judul.toLowerCase()
+				return judulKhusus.indexOf(pencarianStringKhusus) > -1
+			})
+		}
 	},
 	methods: {
 		SingleWhatWeDo (id) {

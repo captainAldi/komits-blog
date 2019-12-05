@@ -6,6 +6,9 @@
       dark
     >
       <div class="d-flex align-center">
+							<router-link
+								to="/"
+							>
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
@@ -14,27 +17,31 @@
           transition="scale-transition"
           width="40"
         />
+							</router-link>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <p>KOMIT'S</p>
       </div>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <div class="d-flex align-right mt-4">
+							<v-text-field
+								label="Search"
+								dense
+								v-model="pencarianString"
+							>
+							</v-text-field>
+
+							<v-spacer></v-spacer>
+
+							<v-btn color="success"
+								fab x-small dark
+								:disabled="!dataTersedia"	
+								@click="cariWhatWeDo()"
+							>
+								<v-icon>mdi-magnify</v-icon>
+								</v-btn>
+						</div>
     </v-app-bar>
 
     <v-content>
@@ -45,12 +52,25 @@
 
 <script>
 //import HelloWorld from './components/HelloWorld';
+//import axios from 'axios'
 
 export default {
   name: 'App',
-
-  data: () => ({
-    //
-  }),
+		data: function () {
+			return {
+				pencarianString: ''
+			}
+		},
+		methods: {
+			cariWhatWeDo() {
+				this.$router.push('/blog/cari/' + this.pencarianString)
+				this.pencarianString = ''
+			}
+		},
+		computed: {
+			dataTersedia() {
+				return this.pencarianString != null && this.pencarianString != ''
+			}
+		}
 };
 </script>
