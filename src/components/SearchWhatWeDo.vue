@@ -23,7 +23,22 @@
 		</v-row>
 	</v-container>
 
+	<v-container v-else-if="!searchResponseDong.length">
+		<div class="text-xs-center">
+		<h2>Kegiatan "<span style="color: red">{{this.nama}}</span>" Tidak Ditemukan</h2>
+		</div>
+	</v-container>
+
 	<v-container fluid v-else>
+		<v-row>
+			<v-col
+				cols="12"
+				md="6"
+				lg="4"
+			>
+				<h2>Hasil Pencarian Untuk "<span style="color: red">{{this.nama}}</span>"</h2>
+			</v-col>
+		</v-row>
 		<v-row>
 			<v-col 
 				cols="12"
@@ -76,7 +91,8 @@ export default {
 			wholeResponse: [],
       loading: true,
 						isActive: false,
-			searchResponse: []
+			searchResponse: [],
+			noData: false
 		}
 	},
 	created() {
@@ -88,20 +104,14 @@ export default {
 			})
 	},
 	computed: {
-		filteredWhatWeDo () {
-				return this.wholeResponse.filter(coba => {
-					return this.id == coba.ID
-			})
-		},
 		searchResponseDong () {
-			//this.searchResponse = this.wholeResponse.indexOf(this.nama)
 			const pencarianStringKhusus = this.nama.toLowerCase()
 
 			return this.wholeResponse.filter(coba1 => {
 				const judulKhusus = coba1.judul.toLowerCase()
 				return judulKhusus.indexOf(pencarianStringKhusus) > -1
 			})
-		}
+		},
 	},
 	methods: {
 		SingleWhatWeDo (id) {
