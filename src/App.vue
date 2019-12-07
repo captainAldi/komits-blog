@@ -19,7 +19,6 @@
         />
 							</router-link>
 
-        <p>KOMIT'S</p>
       </div>
 
       <v-spacer></v-spacer>
@@ -45,21 +44,31 @@
     </v-app-bar>
 
     <v-content>
-      <router-view></router-view>
+      <router-view :wholeResponse="wholeResponse" :loading="loading"></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script>
 //import HelloWorld from './components/HelloWorld';
-//import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'App',
 		data: function () {
 			return {
-				pencarianString: ''
+				pencarianString: '',
+				wholeResponse: [],
+				loading: true,
 			}
+		},
+		created() {
+			axios
+				.get('https://script.google.com/macros/s/AKfycbwOtWg76OZtuIZyISiFtuIVbRbD11GqI1YjsAjhIi7jSS_kVbwP/exec'+'?action=read_wwD')
+				.then(response => {
+					this.wholeResponse = response.data.records
+					this.loading = false
+				})
 		},
 		methods: {
 			cariWhatWeDo() {

@@ -5,25 +5,8 @@
 			threshold: .8
 	}"
 >
-	<v-container fluid v-if="loading">
-		<v-row>
-			<v-col 
-				cols="12"
-				align="center"
-				justify="center"
-			>
-				<v-progress-circular
-					indeterminate
-					:size="150"
-					:width="8"
-					color="blue">
-				</v-progress-circular>
-				<p>Sedang Memuat Data Mohon Tunggu</p>
-			</v-col>
-		</v-row>
-	</v-container>
 
-	<v-container v-else-if="!searchResponseDong.length">
+	<v-container v-if="!searchResponseDong.length">
 		<div class="text-xs-center">
 		<h2>Kegiatan "<span style="color: red">{{this.nama}}</span>" Tidak Ditemukan</h2>
 		</div>
@@ -82,26 +65,15 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
-	props: ['nama'],
+	props: ['nama', 'loading', 'wholeResponse'],
 	data: function () {
 		return {
-			wholeResponse: [],
-      loading: true,
-						isActive: false,
+			isActive: false,
 			searchResponse: [],
 			noData: false
 		}
-	},
-	created() {
-		axios
-			.get('https://script.google.com/macros/s/AKfycbwOtWg76OZtuIZyISiFtuIVbRbD11GqI1YjsAjhIi7jSS_kVbwP/exec'+'?action=read_wwD')
-			.then(response => {
-				this.wholeResponse = response.data.records
-				this.loading = false
-			})
 	},
 	computed: {
 		searchResponseDong () {

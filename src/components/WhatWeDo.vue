@@ -2,7 +2,7 @@
 <v-lazy
 	v-model="isActive"
 	:options="{
-			threshold: .5
+			threshold: .8
 	}"
 >
 	<v-container fluid v-if="loading">
@@ -11,19 +11,20 @@
 				cols="12"
 				align="center"
 				justify="center"
+				md="6"
+				lg="4"
+				v-for="item in fakeData"
+				:key="item"
 			>
-				<v-progress-circular
-					indeterminate
-					:size="150"
-					:width="8"
-					color="blue">
-				</v-progress-circular>
-				<p>Sedang Memuat Data Mohon Tunggu</p>
+				<v-skeleton-loader
+      class="mx-auto"
+						type="card"
+    ></v-skeleton-loader>
 			</v-col>
 		</v-row>
 	</v-container>
 
-	<v-container fluid v-else>
+	<v-container fluid v-else transition="scroll-y-transition">
 		<v-row>
 			<v-col 
 				cols="12"
@@ -67,23 +68,15 @@
 </template>
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
 
 export default {
+	props: ['wholeResponse', 'loading'],
 	data: function () {
 		return {
-			wholeResponse: [],
-      loading: true,
-						isActive: false,
+			isActive: false,
+			fakeData: 6
 		}
-	},
-	created() {
-		axios
-			.get('https://script.google.com/macros/s/AKfycbwOtWg76OZtuIZyISiFtuIVbRbD11GqI1YjsAjhIi7jSS_kVbwP/exec'+'?action=read_wwD')
-			.then(response => {
-				this.wholeResponse = response.data.records
-				this.loading = false
-			})
 	},
 	methods: {
 		SingleWhatWeDo (id) {

@@ -1,20 +1,8 @@
 <template>
-<v-container fluid v-if="loading">
-		<v-row>
-			<v-col 
-				cols="12"
-				align="center"
-				justify="center"
-			>
-				<v-progress-circular
-					indeterminate
-					:size="150"
-					:width="8"
-					color="blue">
-				</v-progress-circular>
-				<p>Sedang Memuat Data Mohon Tunggu</p>
-			</v-col>
-		</v-row>
+	<v-container v-if="!filteredWhatWeDo.length">
+		<div class="text-xs-center">
+		<h2>Kegiatan "<span style="color: red">{{this.id}}</span>" Tidak Ditemukan</h2>
+		</div>
 	</v-container>
 
 	<v-container v-else>
@@ -57,24 +45,15 @@
 </template>
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
 //import WhatWeDoVue from './WhatWeDo.vue'
 
 export default {
-  props: ['id'],
+  props: ['id', 'wholeResponse', 'loading'],
   data () {
     return {
-						wholeResponse: [],
-						loading: true,
+						
     }
-  },
-  mounted () {
-    axios
-      .get('https://script.google.com/macros/s/AKfycbwOtWg76OZtuIZyISiFtuIVbRbD11GqI1YjsAjhIi7jSS_kVbwP/exec'+'?action=read_wwD')
-      .then(response => {
-								this.wholeResponse = response.data.records
-								this.loading = false
-      })
   },
 		computed: {
 			filteredWhatWeDo () {
